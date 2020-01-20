@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc 
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd    
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context.xsd">
+	
+	<mvc:annotation-driven />
+	<context:component-scan base-package="com.yangjie" />
+	
+	
+	<!--创建shiroFilter对象 -->
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager" />
+		<property name="loginUrl" value="login.jsp" />
+		<property name="unauthorizedUrl" value="403.jsp" />
+		<property name="filterChainDefinitions">
+			<value>
+				/login.jsp = anon
+				/subLogin = anon
+				/* = authc
+			</value>
+		</property>
+	</bean>
+	<!--创建shiro需要的对象 -->
+	<!--创建 securityManager 对象 -->
+	<bean class="org.apache.shiro.web.mgt.DefaultWebSecurityManager"
+		id="securityManager">
+		<property name="realm" ref="realm" />
+	</bean>
+	<!--创建自定义realm对象 -->
+	<bean class="com.yangjie.shiro.realm.CustomRealm" id="realm">
+		<property name="credentialsMatcher" ref="credentialsMatcher" />
+	</bean>
+	<!--加密管理器对象 -->
+	<bean class="org.apache.shiro.authc.credential.HashedCredentialsMatcher"
+		id="credentialsMatcher">
+		<property name="hashAlgorithmName" value="md5" />
+		<property name="hashIterations" value="1" />
+	</bean>
+</beans>

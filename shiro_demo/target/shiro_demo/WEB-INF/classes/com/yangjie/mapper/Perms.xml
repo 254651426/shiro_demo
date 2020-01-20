@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yangjie.dao.PermsDao">
+	<resultMap id="mEnrollmentTabResultMap" type="com.yangjie.entity.Perms">
+		<result property="Id" column="id" javaType="int" jdbcType="INTEGER" />
+		<result property="perms" column="perms" javaType="String"
+			jdbcType="VARCHAR" />
+
+	</resultMap>
+
+	<select id="getPerms" resultType="string">
+		select p.perms from perms
+		p,role_perms rp,`user` u
+		where p.id = rp.permsid and u.roleid =
+		rp.roleid and u.username=#{username}
+	</select>
+
+</mapper>
