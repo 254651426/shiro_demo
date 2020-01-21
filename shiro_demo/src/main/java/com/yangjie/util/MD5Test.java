@@ -1,11 +1,16 @@
 package com.yangjie.util;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.crypto.hash.SimpleHash;
 
 public class MD5Test {
 
-	public static void main(String[] args) {
+	// 18a4bba4e122b8c72985a1512cf1c1de
+	public static void main(String[] args) throws UnsupportedEncodingException {
 
 		// 原始 密码
 		String source = "1234567";
@@ -22,7 +27,7 @@ public class MD5Test {
 		// 第三个参数：散列的次数，比如散列两次，相当 于md5(md5(''))
 		Md5Hash md5Hash = new Md5Hash(source, salt, hashIterations);
 		System.out.println(md5Hash.toString());
-		// 第一个参数：散列算法 
+		// 第一个参数：散列算法
 		SimpleHash simpleHash = new SimpleHash("md5", source, salt, hashIterations);
 		System.out.println(simpleHash.toString());
 
